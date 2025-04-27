@@ -7,11 +7,19 @@ import json
 import cv2
 import base64
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 import anthropic
 
+# Get API key from args or environment
+api_key = os.environ.get('ANTHROPIC_API_KEY')
+if not api_key:
+    print("Error: Anthropic API key is required. Provide it via --api-key or set ANTHROPIC_API_KEY environment variable.")
+    sys.exit(1) 
+
 # Anthropic client #
-client = anthropic.Anthropic(api_key="")
+client = anthropic.Anthropic(api_key=api_key)
 
 # Chat memory (store last few exchanges) #
 chat_memory = []
