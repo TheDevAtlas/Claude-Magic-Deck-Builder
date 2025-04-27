@@ -195,15 +195,10 @@ def call_claude(prompt):
     
     history = chat_memory[-6:]  # Last 3 user/assistant pairs
 
-    messages = [
-        {
-            "role": "system",
-            "content": "You are a helpful assistant that manages a Magic: The Gathering deck. You can suggest cards, help build strategies, and modify decks based on user input. Always respond using the JSON format described."
-        }
-    ] + history + [
-        {
-            "role": "user",
-            "content": f"""Current Deck:
+    messages = history + [
+    {
+        "role": "user",
+        "content": f"""Current Deck:
 {json.dumps(deck, indent=2)}
 
 User said: "{prompt}"
@@ -218,8 +213,9 @@ Respond ONLY with:
   }}
 }}
 If you are unsure, set "command" to null."""
-        }
-    ]
+    }
+]
+
 
     try:
         response = client.messages.create(
